@@ -1,0 +1,29 @@
+
+ext {
+	minSdkVersion = 21
+	targetSdkVersion = 31
+	compileSdkVersion = 31
+
+	projectJvmTarget = 11
+	javaVersion = JavaVersion.VERSION_11.toString()
+
+	kotlinCompilerExtensionVersion = "1.1.1"
+}
+
+buildscript {
+	ext.kotlin_version = "1.6.10"
+	repositories {
+		mavenCentral()
+		mavenLocal()
+		google()
+	}
+
+	dependencies {
+		classpath "com.android.tools.build:gradle:7.0.4"
+		classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.10"
+	}
+}
+
+task clean(type: Delete) {
+	delete rootProject.buildDir
+}
