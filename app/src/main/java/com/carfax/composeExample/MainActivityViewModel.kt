@@ -1,9 +1,9 @@
-package com.carfax.composeExample.components
+package com.carfax.composeExample
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.carfax.composeExample.Vehicle
+import com.carfax.composeExample.`object`.Vehicle
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -22,7 +22,7 @@ class MainActivityViewModel: ViewModel() {
 		val newVehicle = backupVehicle
 		backupVehicle = vehicle.value
 		vehicle.value = newVehicle
-		delay(1000)
+		delay(2000)
 		loading.value = false
 		}
 	}

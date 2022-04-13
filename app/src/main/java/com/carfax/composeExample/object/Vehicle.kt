@@ -1,4 +1,4 @@
-package com.carfax.composeExample
+package com.carfax.composeExample.`object`
 
 data class Vehicle(
 	val year: Int,

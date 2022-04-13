@@ -1,96 +1,95 @@
 package com.carfax.composeExample.components
 
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.OutlinedTextField
-import androidx.compose.material.Text
-import androidx.compose.material.TextButton
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Alignment.Companion.CenterVertically
+import androidx.compose.ui.Alignment.Companion.Center
+import androidx.compose.ui.Alignment.Companion.CenterEnd
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Dialog
-import androidx.compose.ui.window.DialogProperties
-import com.carfax.composeExample.Vehicle
+import androidx.compose.ui.unit.sp
+import com.carfax.composeExample.R
+import com.carfax.composeExample.`object`.Vehicle
+import com.carfax.composeExample.theme.AppTheme
 
 @Composable
-fun DashboardYear(vehicle: MutableState<Vehicle>) {
-	BaseDashboardItem(title = "Year", value = vehicle.value.year.toString(), vehicle = vehicle)
-}
-
-@Composable
-fun DashboardMake(vehicle: MutableState<Vehicle>) {
-	BaseDashboardItem(title = "Make", value = vehicle.value.make, vehicle = vehicle)
-}
-
-@Composable
-fun DashboardModel(vehicle: MutableState<Vehicle>) {
-	BaseDashboardItem(title = "Model", value = vehicle.value.model, vehicle = vehicle)
-}
-
-@Composable
-fun DashboardMiles(vehicle: MutableState<Vehicle>) {
-	BaseDashboardItem(title = "Miles", value = vehicle.value.miles.toString(), vehicle = vehicle)
-}
-
-@Composable
-fun DashboardComments(vehicle: MutableState<Vehicle>) {
-	BaseDashboardItem(title = "Comments", value = vehicle.value.comments, vehicle = vehicle, dialogEditComments = true)
-}
-
-@Composable
-private fun BaseDashboardItem(
-	title: String,
-	value: String,
-	vehicle: MutableState<Vehicle>,
-	dialogEditComments: Boolean = false
+fun Ball(
+	modifier: Modifier = Modifier,
+	size: Dp = 70.dp,
+	backgroundColor: Color = Color.Gray.copy(alpha = 0.8f),
 ) {
-	val isDialogOpen = rememberSaveable { mutableStateOf(false) }
-	Row(
-		modifier = Modifier
-			.fillMaxWidth()
-			.height(50.dp)
-			.padding(8.dp)
-			.border(width = 1.dp, Color.Black)
-			.clickable(enabled = dialogEditComments, onClick = { isDialogOpen.value = true })
-	) {
-		Text(
-			text = title, fontWeight = FontWeight.Bold, modifier = Modifier
-				.align(CenterVertically)
-				.padding(8.dp)
+	AppTheme {
+		Box(
+			modifier = modifier
+				.width(size)
+				.height(size)
+				.clipToBounds()
+				.background(backgroundColor, CircleShape)
 		)
-		Text(text = value, modifier = Modifier.align(CenterVertically))
-		UpdateCommentsDialog(vehicle = vehicle, isDialogOpen = isDialogOpen)
 	}
 }
 
+/**
+ * The Vehicle Data List Item Composable.
+ *
+ * @param vehicleData The [Vehicle] to Display.
+ */
 @Composable
-private fun UpdateCommentsDialog(vehicle: MutableState<Vehicle>, isDialogOpen: MutableState<Boolean>) {
-	if (isDialogOpen.value) {
-		Dialog(onDismissRequest = { isDialogOpen.value = false }) {
-			Column(modifier = Modifier
+fun VehicleDataListItem(vehicleData: Vehicle) {
+	Card(
+		backgroundColor = Color.Gray,
+		modifier = Modifier
+			.fillMaxWidth()
+			.padding(4.dp)
+	) {
+		Column(
+			modifier = Modifier
+				.padding(8.dp)
 				.fillMaxWidth()
-				.border(BorderStroke(1.dp, Color.Blue))
-				.background(Color(0xFFFFFFFF))) {
-				OutlinedTextField(
-					modifier = Modifier.fillMaxWidth().padding(8.dp),
-					value = vehicle.value.comments,
-					onValueChange = { vehicle.value = vehicle.value.copy(comments = it) },
-					label = { Text("Comments") })
-
-				TextButton(onClick = { isDialogOpen.value = false }, modifier = Modifier.align(Alignment.CenterHorizontally)) {
-					Text(text = "Save")
+		) {
+			Row(
+				modifier = Modifier
+					.fillMaxWidth()
+					.padding(4.dp)
+			) {
+				BadgedBox(badge = { Badge(modifier = Modifier.wrapContentSize()) { Text("9", fontSize = 16.sp) } }) {
+					Image(
+						bitmap = ImageBitmap.imageResource(id = R.drawable.image_not_found),
+						contentDescription = null,
+						modifier = Modifier
+							.size(110.dp, 100.dp)
+							.align(Center),
+						contentScale = ContentScale.Fit
+					)
+				}
+				Row(modifier = Modifier.fillMaxWidth()) {
+					Column(modifier = Modifier.padding(8.dp)) {
+						Text(
+							text = "${vehicleData.year} ${vehicleData.make} ${vehicleData.model}",
+							fontWeight = FontWeight.Bold,
+							fontSize = 18.sp
+						)
+					}
+					Box(modifier = Modifier.aspectRatio(1f)) {
+						Icon(
+							Icons.Default.MoreVert,
+							contentDescription = "More Options",
+							tint = AppTheme.colors.background,
+							modifier = Modifier
+								.align(CenterEnd)
+						)
+					}
 				}
 			}
 		}
