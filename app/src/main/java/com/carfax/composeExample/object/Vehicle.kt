@@ -5,5 +5,7 @@ data class Vehicle(
 	val make: String,
 	val model: String,
 	val miles: Double,
-	val comments: String
+	val comments: String,
+	val rating: Int,
+	val notifications: Int
 )

@@ -12,6 +12,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
@@ -21,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.carfax.composeExample.components.*
@@ -67,7 +69,7 @@ class MainActivity : AppCompatActivity() {
 						TextButton(onClick = { viewModel.swapVehicles() }) {
 							Text(text = "Switch Vehicles", color = AppTheme.colors.textPrimary)
 						}
-						VehicleDataListItem(vehicleData = viewModel.vehicle.value)
+						VehicleDataListItem(vehicleData = viewModel.vehicle)
 					}
 				}
 			}
